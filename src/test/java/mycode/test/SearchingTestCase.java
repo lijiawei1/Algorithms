@@ -36,6 +36,14 @@ public class SearchingTestCase {
     }
 
     @Test
+    public void testBST_Traversal() {
+        bst.traversalFront();
+        bst.traversalMid();
+        bst.traversalBack();
+        bst.traversalLevel();
+    }
+
+    @Test
     public void testBST_Delete() {
         System.out.println(bst.min());
         System.out.println(bst.max());

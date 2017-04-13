@@ -1,6 +1,13 @@
 package mycode.searching;
 
+import com.bedpotato.alg4.Queue;
+
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Created by Shin on 2017/4/13.
@@ -221,9 +228,87 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
         return x;
     }
 
+    public Iterable<K> keys() {
+        return keys(min(), max());
+    }
+
     @Override
     public Iterable<K> keys(K lo, K hi) {
-        return null;
+        Queue<K> queue = new Queue<>();
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+
+    /**
+     * 层级遍历
+     */
+    public void traversalLevel() {
+        java.util.Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        do {
+            Node head = queue.remove();
+            if (head.left != null) queue.add(head.left);
+            if (head.right != null) queue.add(head.right);
+            System.out.print(head.key);
+        } while (!queue.isEmpty());
+        System.out.println();
+    }
+
+    /**
+     * 前序
+     */
+    public void traversalFront() {
+        traversalFrontRe(root, n -> System.out.print(n.key));
+        System.out.println();
+    }
+
+    /**
+     * 中序
+     */
+    public void traversalMid() {
+        traversalMidRe(root, n -> System.out.print(n.key));
+        System.out.println();
+    }
+
+    /**
+     * 后序
+     */
+    public void traversalBack() {
+        traversalBackRe(root, n -> System.out.print(n.key));
+        System.out.println();
+    }
+
+    private void traversalBackRe(Node x, Consumer<Node> f) {
+        if (x == null) return;
+        traversalBackRe(x.left, f);
+        traversalBackRe(x.right, f);
+        f.accept(x);
+    }
+
+    private void traversalFrontRe(Node x, Consumer<Node> f) {
+        if (x == null) return;
+        f.accept(x);
+        traversalMidRe(x.left, f);
+        traversalMidRe(x.right, f);
+    }
+
+    private void traversalMidRe(Node x, Consumer<Node> f) {
+        if (x == null) return;
+        traversalMidRe(x.left, f);
+        f.accept(x);
+        traversalMidRe(x.right, f);
+    }
+
+    private void keys(Node x, Queue<K> queue, K lo, K hi) {
+        if (x == null) return;
+        int cmplo = lo.compareTo(x.key);
+        int cmphi = hi.compareTo(x.key);
+        //查找左子树
+        if (cmplo < 0) keys(x.left, queue, lo, hi);
+        //根节点
+        if (cmplo <= 0 && cmphi >= 0) queue.enqueue(x.key);
+        //右子树
+        if (cmphi > 0) keys(x.right, queue, lo, hi);
     }
 
     @Override
