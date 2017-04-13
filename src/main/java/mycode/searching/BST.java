@@ -28,6 +28,10 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
             this.val = val;
             this.n = n;
         }
+
+        public String toString() {
+            return String.format("key:%s,val:%d,n:%d",key, val, n);
+        }
     }
 
     @Override
@@ -72,23 +76,23 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
 
     @Override
     public K min() {
-        return min(root);
+        return root == null ? null : min(root).key;
     }
 
-    private K min(Node x) {
+    private Node min(Node x) {
         if (x == null) return null;
-        if (x.left == null) return x.key;
+        if (x.left == null) return x;
         return min(x.left);
     }
 
     @Override
     public K max() {
-        return max(root);
+        return root == null ? null : max(root).key;
     }
 
-    private K max(Node x) {
+    private Node max(Node x) {
         if (x == null) return null;
-        if (x.right == null) return x.key;
+        if (x.right == null) return x;
         return max(x.right);
     }
 
@@ -102,7 +106,7 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
         int cmp = key.compareTo(x.key);
         //一定在左子树
         if (cmp < 0) return floor(key, x.left);
-        //可能在右子树，如果不在右子树，那么当前的x.key就是目标
+            //可能在右子树，如果不在右子树，那么当前的x.key就是目标
         else if (cmp > 0) {
             K k = floor(key, x.right);
             //右子树不一定有的
@@ -136,7 +140,7 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
         int cmp = key.compareTo(x.key);
         //判断左子树的个数
         if (cmp < 0) return rank(key, x.left);
-        //左子树的个数+本身+右子树的排名等于最终排名
+            //左子树的个数+本身+右子树的排名等于最终排名
         else if (cmp > 0) return size(x.left) + 1 + rank(key, x.right);
         else return size(x.left);
     }
@@ -151,13 +155,43 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
         int t = size(x.left);
         //左子树结点数大于k，找左子树
         if (t > k) return select(k, x.left);
-        //左子树结点数小于k，从右子树中找剩余的，注意是每进入一棵子树都是从零开始，所以要减一
+            //左子树结点数小于k，从右子树中找剩余的，注意是每进入一棵子树都是从零开始，所以要减一
         else if (t < k) return select(k - t - 1, x.right);
         else return x.key;
     }
 
+    /**
+     * 1.如果只有左结点
+     * 2.如果有右结点
+     * 2.1将指向将被删除的结点保存为t
+     * 2.2将x指向它的后继结点min(t.right)
+     * 2.3将x的右链接
+     *
+     * @param k
+     */
+    @Override
     public void delete(K k) {
+        root = delete(k, root);
+    }
 
+    private Node delete(K k, Node x) {
+        if (x == null) return null;
+        int cmp = k.compareTo(x.key);
+        if (cmp < 0) x.left = delete(k, x.left);
+        else if (cmp > 0) x.right = delete(k, x.right);
+        else {
+            //当前结点就是需要删除的
+            if (x.right == null) return x.left;
+            if (x.left == null) return x.right;
+            //左右都存在的情况
+            //右则最小的结点
+            Node t = x;
+            x = min(x.right);
+            x.right = deleteMin(t.right);
+            x.left = t.left;
+        }
+        x.n = size(x.left) + size(x.right) + 1;
+        return x;
     }
 
     /**
@@ -169,14 +203,10 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
     }
 
     private Node deleteMin(Node x) {
-        int t = size(x.left);
-        if (t == 0) return x.right;
-        else {
-            x.left = deleteMin(x.left);
-            x.n = size(x.left) + size(x.right) + 1;
-            return x;
-        }
-
+        if (x.left == null) return x.right;
+        x.left = deleteMin(x.left);
+        x.n = size(x.left) + size(x.right) + 1;
+        return x;
     }
 
     public void deleteMax() {
@@ -185,13 +215,10 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
     }
 
     private Node deleteMax(Node x) {
-        int t = size(x.right);
-        if (t == 0) return x.left;
-        else {
-            x.right = deleteMax(x.right);
-            x.n = size(x.left) + size(x.right) + 1;
-            return x;
-        }
+        if (x.right == null) return x.left;
+        x.right = deleteMax(x.right);
+        x.n = size(x.left) + size(x.right) + 1;
+        return x;
     }
 
     @Override

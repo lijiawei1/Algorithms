@@ -6,10 +6,12 @@ import com.bedpotato.alg4.utils.StdInTest;
 import com.bedpotato.alg4.utils.StdOut;
 import mycode.searching.BST;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.nio.channels.Pipe;
 
 import static com.bedpotato.alg4.constants.Alg4Constants.DATA_PATH;
 
@@ -18,17 +20,42 @@ import static com.bedpotato.alg4.constants.Alg4Constants.DATA_PATH;
  */
 public class SearchingTestCase {
 
-    @Test
-    public void testBST() {
+    private BST<String, Integer> bst;
+
+    @Before
+    public void setUp() {
         String S = "SEARCHEXAMPLE";
         String[] cs = new String[S.length()];
         for (int i = 0; i < S.length(); i++) {
             cs[i] = String.valueOf(S.charAt(i));
         }
-        BST<String, Integer> bst = new BST<>();
+        bst = new BST<>();
         for (int i = 0; i < cs.length; i++) {
             bst.put(cs[i], i);
         }
+    }
+
+    @Test
+    public void testBST_Delete() {
+        System.out.println(bst.min());
+        System.out.println(bst.max());
+
+        //bst.deleteMin();
+        //Assert.assertEquals("C", bst.min());
+        //bst.deleteMax();
+        //Assert.assertEquals("S", bst.max());
+
+        //bst.delete("C");
+        //Assert.assertEquals("A", bst.min());
+        bst.delete("E");
+        System.out.println();
+    }
+
+
+
+    @Test
+    public void testBST() {
+
         System.out.println(bst.min());
         System.out.println(bst.max());
         Assert.assertEquals(null, bst.floor(String.valueOf((char)('A' - 1))));
@@ -86,7 +113,6 @@ public class SearchingTestCase {
         bst.deleteMax();
         Assert.assertEquals(null, bst.get("X"));
         Assert.assertEquals(Integer.valueOf(0), bst.get("S"));
-
     }
 
     @Test
