@@ -7,6 +7,8 @@ import java.util.function.Consumer;
  */
 public abstract class BaseBST<K extends Comparable<K>, V> implements IBinarySearchTree<K, V> {
 
+    static final boolean RED = true;
+    static final boolean BLACK = false;
 
     protected Node root;
 
@@ -15,6 +17,7 @@ public abstract class BaseBST<K extends Comparable<K>, V> implements IBinarySear
         protected V val;              //值
         protected Node left, right;   //指向子树的链接
         protected int n;              //以该结点为根的子树中的结点总数
+        boolean color;
 
         public Node(K key, V val, Node left, Node right, int n) {
             this.key = key;
@@ -22,6 +25,15 @@ public abstract class BaseBST<K extends Comparable<K>, V> implements IBinarySear
             this.left = left;
             this.right = right;
             this.n = n;
+        }
+
+        public Node(K key, V val, Node left, Node right, int n, boolean color) {
+            this.key = key;
+            this.val = val;
+            this.left = left;
+            this.right = right;
+            this.n = n;
+            this.color = color;
         }
 
         public Node(K key, V val, int n) {
@@ -51,5 +63,15 @@ public abstract class BaseBST<K extends Comparable<K>, V> implements IBinarySear
         traversalMidRe(x.left, f);
         f.accept(x);
         traversalMidRe(x.right, f);
+    }
+
+    /**
+     * 判断是否红链接
+     * @param x
+     * @return
+     */
+    protected boolean isRed(Node x) {
+        if (x == null) return false;
+        return x.color == RED;
     }
 }
