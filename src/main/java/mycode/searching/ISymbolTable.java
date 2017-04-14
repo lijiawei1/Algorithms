@@ -15,7 +15,7 @@ public interface ISymbolTable<K, V> extends Iterable<K> {
     }
 
     default boolean contains(K key) {
-        return get(key) == null;
+        return get(key) != null;
     }
 
     default boolean isEmpty() {

@@ -55,7 +55,7 @@ public interface IOrderSymbolTable<K extends Comparable<K>, V> extends ISymbolTa
      * @return
      */
     default int size(K lo, K hi) {
-        if (hi.compareTo(lo) < 0)
+        if (lo.compareTo(hi) > 0)
             return 0;
         else if (contains(hi))
             return rank(hi) - rank(lo) + 1;

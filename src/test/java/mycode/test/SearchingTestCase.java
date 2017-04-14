@@ -2,16 +2,15 @@ package mycode.test;
 
 import com.bedpotato.alg4.ST;
 import com.bedpotato.alg4.utils.StdIn;
-import com.bedpotato.alg4.utils.StdInTest;
 import com.bedpotato.alg4.utils.StdOut;
-import mycode.searching.BST;
+import mycode.searching.IBinarySearchTree;
+import mycode.searching.NonrecursiveBST;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.nio.channels.Pipe;
 
 import static com.bedpotato.alg4.constants.Alg4Constants.DATA_PATH;
 
@@ -20,7 +19,7 @@ import static com.bedpotato.alg4.constants.Alg4Constants.DATA_PATH;
  */
 public class SearchingTestCase {
 
-    private BST<String, Integer> bst;
+    private IBinarySearchTree<String, Integer> bst;
 
     @Before
     public void setUp() {
@@ -29,7 +28,7 @@ public class SearchingTestCase {
         for (int i = 0; i < S.length(); i++) {
             cs[i] = String.valueOf(S.charAt(i));
         }
-        bst = new BST<>();
+        bst = new NonrecursiveBST<>();
         for (int i = 0; i < cs.length; i++) {
             bst.put(cs[i], i);
         }
@@ -37,10 +36,12 @@ public class SearchingTestCase {
 
     @Test
     public void testBST_Traversal() {
-        bst.traversalFront();
-        bst.traversalMid();
-        bst.traversalBack();
-        bst.traversalLevel();
+//        bst.traversalFront();
+//        bst.traversalMid();
+//        bst.traversalBack();
+//        bst.traversalLevel();
+
+        Assert.assertEquals(5, bst.height());
     }
 
     @Test
@@ -59,6 +60,10 @@ public class SearchingTestCase {
         System.out.println();
     }
 
+    @Test
+    public void checkBST() {
+        bst.traversalMid();
+    }
 
 
     @Test
@@ -66,10 +71,18 @@ public class SearchingTestCase {
 
         System.out.println(bst.min());
         System.out.println(bst.max());
-        Assert.assertEquals(null, bst.floor(String.valueOf((char)('A' - 1))));
+//        Assert.assertEquals(null, bst.floor(String.valueOf((char)('A' - 1))));
         Assert.assertEquals("A", bst.floor("A"));
         Assert.assertEquals("A", bst.floor("B"));
+        Assert.assertEquals("C", bst.floor("C"));
+        Assert.assertEquals("C", bst.floor("D"));
+        Assert.assertEquals("E", bst.floor("E"));
+        Assert.assertEquals("E", bst.floor("F"));
         Assert.assertEquals("E", bst.floor("G"));
+        Assert.assertEquals("H", bst.floor("H"));
+        Assert.assertEquals("H", bst.floor("I"));
+        Assert.assertEquals("H", bst.floor("J"));
+        Assert.assertEquals("H", bst.floor("K"));
         Assert.assertEquals("S", bst.floor("S"));
         Assert.assertEquals("S", bst.floor("T"));
         Assert.assertEquals("X", bst.floor("X"));
@@ -89,7 +102,7 @@ public class SearchingTestCase {
         Assert.assertEquals("X", bst.ceiling("W"));
         Assert.assertEquals("X", bst.ceiling("X"));
         Assert.assertEquals(null, bst.ceiling("Y"));
-
+//
         Assert.assertEquals("A", bst.select(0));
         Assert.assertEquals("C", bst.select(1));
         Assert.assertEquals("E", bst.select(2));
@@ -100,7 +113,7 @@ public class SearchingTestCase {
         Assert.assertEquals("R", bst.select(7));
         Assert.assertEquals("S", bst.select(8));
         Assert.assertEquals("X", bst.select(9));
-
+//
         Assert.assertEquals(0, bst.rank("A"));
         Assert.assertEquals(1, bst.rank("C"));
         Assert.assertEquals(2, bst.rank("E"));
@@ -111,16 +124,17 @@ public class SearchingTestCase {
         Assert.assertEquals(7, bst.rank("R"));
         Assert.assertEquals(8, bst.rank("S"));
         Assert.assertEquals(9, bst.rank("X"));
+//
+//        bst.deleteMin();
+//        Assert.assertEquals(0, bst.rank("C"));
+//        bst.deleteMin();
+//        Assert.assertEquals(0, bst.rank("E"));
+//        System.out.println();
+//
+//        bst.deleteMax();
+//        Assert.assertEquals(null, bst.get("X"));
+//        Assert.assertEquals(Integer.valueOf(0), bst.get("S"));
 
-        bst.deleteMin();
-        Assert.assertEquals(0, bst.rank("C"));
-        bst.deleteMin();
-        Assert.assertEquals(0, bst.rank("E"));
-        System.out.println();
-
-        bst.deleteMax();
-        Assert.assertEquals(null, bst.get("X"));
-        Assert.assertEquals(Integer.valueOf(0), bst.get("S"));
     }
 
     @Test

@@ -12,7 +12,7 @@ import java.util.function.Function;
 /**
  * Created by Shin on 2017/4/13.
  */
-public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> {
+public class BST<K extends Comparable<K>, V> implements IBinarySearchTree<K, V> {
 
     private Node root;
 
@@ -150,6 +150,15 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
             //左子树的个数+本身+右子树的排名等于最终排名
         else if (cmp > 0) return size(x.left) + 1 + rank(key, x.right);
         else return size(x.left);
+    }
+
+    public int size(K lo, K hi) {
+        if (lo.compareTo(hi) > 0)
+            return 0;
+        else if (contains(hi))
+            return rank(hi) - rank(lo) + 1;
+        else
+            return rank(hi) - rank(lo);
     }
 
     @Override
@@ -313,7 +322,21 @@ public class BST<K extends Comparable<K>, V> implements IOrderSymbolTable<K, V> 
 
     @Override
     public int size() {
-        return 0;
+        return size(root);
+    }
+
+    /**
+     * 1个结点的高度是0
+     * @return
+     */
+    @Override
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node x) {
+        if (x == null) return -1;
+        return 1+ Math.max(height(x.left), height(x.right));
     }
 
     @Override
