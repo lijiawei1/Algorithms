@@ -16,11 +16,11 @@ public class BST<K extends Comparable<K>, V> implements IBinarySearchTree<K, V> 
 
     private Node root;
 
-    private class Node {
-        private K key;              //键
-        private V val;              //值
-        private Node left, right;   //指向子树的链接
-        private int n;              //以该结点为根的子树中的结点总数
+    protected class Node {
+        protected K key;              //键
+        protected V val;              //值
+        protected Node left, right;   //指向子树的链接
+        protected int n;              //以该结点为根的子树中的结点总数
 
         public Node(K key, V val, Node left, Node right, int n) {
             this.key = key;

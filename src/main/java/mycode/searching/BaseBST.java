@@ -19,6 +19,13 @@ public abstract class BaseBST<K extends Comparable<K>, V> implements IBinarySear
         protected int n;              //以该结点为根的子树中的结点总数
         boolean color;
 
+        public Node(K key, V val, int n, boolean color) {
+            this.key = key;
+            this.val = val;
+            this.n = n;
+            this.color = color;
+        }
+
         public Node(K key, V val, Node left, Node right, int n) {
             this.key = key;
             this.val = val;

@@ -1,7 +1,8 @@
 package mycode.searching;
 
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * exe 3.2.13
