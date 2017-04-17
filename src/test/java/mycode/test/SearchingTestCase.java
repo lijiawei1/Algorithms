@@ -5,6 +5,7 @@ import com.bedpotato.alg4.utils.StdIn;
 import com.bedpotato.alg4.utils.StdOut;
 import mycode.searching.IBinarySearchTree;
 import mycode.searching.NonrecursiveBST;
+import mycode.searching.RedBlackBST;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,21 @@ public class SearchingTestCase {
         bst = new NonrecursiveBST<>();
         for (int i = 0; i < cs.length; i++) {
             bst.put(cs[i], i);
+        }
+    }
+
+    @Test
+    public void testBST_REDBLACKTREE() {
+
+        String S = "SEARCHXMPL";
+        String[] cs = new String[S.length()];
+        for (int i = 0; i < S.length(); i++) {
+            cs[i] = String.valueOf(S.charAt(i));
+        }
+        IBinarySearchTree<String, Integer> rbt = new RedBlackBST<>();
+
+        for (int i = 0; i < cs.length; i++) {
+            rbt.put(cs[i], i);
         }
     }
 

@@ -50,7 +50,7 @@ public abstract class BaseBST<K extends Comparable<K>, V> implements IBinarySear
         }
 
         public String toString() {
-            return String.format("key:%s,val:%d,n:%d", key, val, n);
+            return String.format("key:%s,val:%d,n:%d,c:%s", key, val, n, color);
         }
     }
 
@@ -58,11 +58,19 @@ public abstract class BaseBST<K extends Comparable<K>, V> implements IBinarySear
         return x == null ? 0 : x.n;
     }
 
+    //public void traversalMid() {
+    //    traversalMidRe(root, n -> {
+    //        if (n.key.compareTo(select(rank(n.key))) != 0)
+    //            throw new IllegalStateException("键不相等");
+    //    });
+    //}
+
+    /**
+     * 中序
+     */
     public void traversalMid() {
-        traversalMidRe(root, n -> {
-            if (n.key.compareTo(select(rank(n.key))) != 0)
-                throw new IllegalStateException("键不相等");
-        });
+        traversalMidRe(root, n -> System.out.print(n.key));
+        System.out.println();
     }
 
     public void traversalMidRe(Node x, Consumer<Node> f) {
