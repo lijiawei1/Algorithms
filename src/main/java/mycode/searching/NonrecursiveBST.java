@@ -187,6 +187,18 @@ public class NonrecursiveBST<K extends Comparable<K>, V> extends BaseBST<K, V> {
         }
     }
 
+    public Node getNode(K key) {
+        if (root == null) return null;
+        Node x = root;
+        while (x != null) {
+            int cmp = key.compareTo(x.key);
+            if (cmp == 0) return x;
+            if (cmp < 0) x = x.left;
+            if (cmp > 0) x = x.right;
+        }
+        return null;
+    }
+
     @Override
     public V get(K key) {
         if (root == null) return null;

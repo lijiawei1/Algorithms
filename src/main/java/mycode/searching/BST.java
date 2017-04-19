@@ -2,12 +2,9 @@ package mycode.searching;
 
 import com.bedpotato.alg4.Queue;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Created by Shin on 2017/4/13.

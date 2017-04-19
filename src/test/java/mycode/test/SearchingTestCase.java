@@ -14,6 +14,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import static com.bedpotato.alg4.constants.Alg4Constants.DATA_PATH;
+import static mycode.searching.BaseBST.BLACK;
+import static mycode.searching.BaseBST.RED;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Shin on 2017/4/13.
@@ -43,11 +46,52 @@ public class SearchingTestCase {
         for (int i = 0; i < S.length(); i++) {
             cs[i] = String.valueOf(S.charAt(i));
         }
-        IBinarySearchTree<String, Integer> rbt = new RedBlackBST<>();
-
+        RedBlackBST<String, Integer> rbt = new RedBlackBST<>();
         for (int i = 0; i < cs.length; i++) {
             rbt.put(cs[i], i);
         }
+        //删除A
+        rbt.deleteMin();
+
+        assertEquals("E", rbt.getNode("M").getLeft().getKey());
+        assertEquals("R", rbt.getNode("M").getRight().getKey());
+        assertEquals("C", rbt.getNode("E").getLeft().getKey());
+        assertEquals("L", rbt.getNode("E").getRight().getKey());
+
+        //删除C
+        rbt.deleteMin();
+
+        assertEquals("H", rbt.getNode("M").getLeft().getKey());
+        assertEquals("E", rbt.getNode("H").getLeft().getKey());
+        assertEquals("L", rbt.getNode("H").getRight().getKey());
+        assertEquals(null, rbt.getNode("E").getLeft());
+        assertEquals(BLACK, rbt.getNode("E").isColor());
+        assertEquals(BLACK, rbt.getNode("L").isColor());
+
+        //删除E
+        rbt.deleteMin();
+
+        assertEquals("M", rbt.getNode("R").getLeft().getKey());
+        assertEquals("X", rbt.getNode("R").getRight().getKey());
+        assertEquals("L", rbt.getNode("M").getLeft().getKey());
+        assertEquals("P", rbt.getNode("M").getRight().getKey());
+        assertEquals(RED, rbt.getNode("M").isColor());
+        assertEquals("H", rbt.getNode("L").getLeft().getKey());
+        assertEquals(null, rbt.getNode("L").getRight());
+        assertEquals(BLACK, rbt.getNode("L").isColor());
+        assertEquals(RED, rbt.getNode("H").isColor());
+
+        //删除H
+        rbt.deleteMin();
+        //删除L
+        rbt.deleteMin();
+        assertEquals("P", rbt.getNode("R").getLeft().getKey());
+        assertEquals("X", rbt.getNode("R").getRight().getKey());
+        assertEquals("M", rbt.getNode("P").getLeft().getKey());
+        assertEquals(null, rbt.getNode("P").getRight());
+        assertEquals(BLACK, rbt.getNode("P").isColor());
+        assertEquals(RED, rbt.getNode("M").isColor());
+
     }
 
     @Test
@@ -57,7 +101,7 @@ public class SearchingTestCase {
 //        bst.traversalBack();
 //        bst.traversalLevel();
 
-        Assert.assertEquals(5, bst.height());
+        assertEquals(5, bst.height());
     }
 
     @Test
@@ -88,58 +132,58 @@ public class SearchingTestCase {
         System.out.println(bst.min());
         System.out.println(bst.max());
 //        Assert.assertEquals(null, bst.floor(String.valueOf((char)('A' - 1))));
-        Assert.assertEquals("A", bst.floor("A"));
-        Assert.assertEquals("A", bst.floor("B"));
-        Assert.assertEquals("C", bst.floor("C"));
-        Assert.assertEquals("C", bst.floor("D"));
-        Assert.assertEquals("E", bst.floor("E"));
-        Assert.assertEquals("E", bst.floor("F"));
-        Assert.assertEquals("E", bst.floor("G"));
-        Assert.assertEquals("H", bst.floor("H"));
-        Assert.assertEquals("H", bst.floor("I"));
-        Assert.assertEquals("H", bst.floor("J"));
-        Assert.assertEquals("H", bst.floor("K"));
-        Assert.assertEquals("S", bst.floor("S"));
-        Assert.assertEquals("S", bst.floor("T"));
-        Assert.assertEquals("X", bst.floor("X"));
-        Assert.assertEquals("X", bst.floor("Y"));
+        assertEquals("A", bst.floor("A"));
+        assertEquals("A", bst.floor("B"));
+        assertEquals("C", bst.floor("C"));
+        assertEquals("C", bst.floor("D"));
+        assertEquals("E", bst.floor("E"));
+        assertEquals("E", bst.floor("F"));
+        assertEquals("E", bst.floor("G"));
+        assertEquals("H", bst.floor("H"));
+        assertEquals("H", bst.floor("I"));
+        assertEquals("H", bst.floor("J"));
+        assertEquals("H", bst.floor("K"));
+        assertEquals("S", bst.floor("S"));
+        assertEquals("S", bst.floor("T"));
+        assertEquals("X", bst.floor("X"));
+        assertEquals("X", bst.floor("Y"));
 
-        Assert.assertEquals(null, bst.ceiling(String.valueOf((char)('X' + 1))));
-        Assert.assertEquals("A", bst.ceiling("A"));
+        assertEquals(null, bst.ceiling(String.valueOf((char)('X' + 1))));
+        assertEquals("A", bst.ceiling("A"));
 
-        Assert.assertEquals("C", bst.ceiling("B"));
-        Assert.assertEquals("H", bst.ceiling("G"));
-        Assert.assertEquals("P", bst.ceiling("O"));
-        Assert.assertEquals("P", bst.ceiling("P"));
-        Assert.assertEquals("R", bst.ceiling("Q"));
-        Assert.assertEquals("R", bst.ceiling("R"));
-        Assert.assertEquals("S", bst.ceiling("S"));
-        Assert.assertEquals("X", bst.ceiling("T"));
-        Assert.assertEquals("X", bst.ceiling("W"));
-        Assert.assertEquals("X", bst.ceiling("X"));
-        Assert.assertEquals(null, bst.ceiling("Y"));
+        assertEquals("C", bst.ceiling("B"));
+        assertEquals("H", bst.ceiling("G"));
+        assertEquals("P", bst.ceiling("O"));
+        assertEquals("P", bst.ceiling("P"));
+        assertEquals("R", bst.ceiling("Q"));
+        assertEquals("R", bst.ceiling("R"));
+        assertEquals("S", bst.ceiling("S"));
+        assertEquals("X", bst.ceiling("T"));
+        assertEquals("X", bst.ceiling("W"));
+        assertEquals("X", bst.ceiling("X"));
+        assertEquals(null, bst.ceiling("Y"));
 //
-        Assert.assertEquals("A", bst.select(0));
-        Assert.assertEquals("C", bst.select(1));
-        Assert.assertEquals("E", bst.select(2));
-        Assert.assertEquals("H", bst.select(3));
-        Assert.assertEquals("L", bst.select(4));
-        Assert.assertEquals("M", bst.select(5));
-        Assert.assertEquals("P", bst.select(6));
-        Assert.assertEquals("R", bst.select(7));
-        Assert.assertEquals("S", bst.select(8));
-        Assert.assertEquals("X", bst.select(9));
+        assertEquals("A", bst.select(0));
+        assertEquals("C", bst.select(1));
+        assertEquals("E", bst.select(2));
+        assertEquals("H", bst.select(3));
+        assertEquals("L", bst.select(4));
+        assertEquals("M", bst.select(5));
+        assertEquals("P", bst.select(6));
+        assertEquals("R", bst.select(7));
+        assertEquals("S", bst.select(8));
+        assertEquals("X", bst.select(9));
 //
-        Assert.assertEquals(0, bst.rank("A"));
-        Assert.assertEquals(1, bst.rank("C"));
-        Assert.assertEquals(2, bst.rank("E"));
-        Assert.assertEquals(3, bst.rank("H"));
-        Assert.assertEquals(4, bst.rank("L"));
-        Assert.assertEquals(5, bst.rank("M"));
-        Assert.assertEquals(6, bst.rank("P"));
-        Assert.assertEquals(7, bst.rank("R"));
-        Assert.assertEquals(8, bst.rank("S"));
-        Assert.assertEquals(9, bst.rank("X"));
+        assertEquals(0, bst.rank("A"));
+        assertEquals(1, bst.rank("C"));
+        assertEquals(2, bst.rank("E"));
+        assertEquals(3, bst.rank("H"));
+        assertEquals(4, bst.rank("L"));
+        assertEquals(5, bst.rank("M"));
+        assertEquals(6, bst.rank("P"));
+        assertEquals(7, bst.rank("R"));
+        assertEquals(8, bst.rank("S"));
+        assertEquals(9, bst.rank("X"));
 //
 //        bst.deleteMin();
 //        Assert.assertEquals(0, bst.rank("C"));
